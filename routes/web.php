@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use function GuzzleHttp\json_encode;
 
 /*
 |--------------------------------------------------------------------------
