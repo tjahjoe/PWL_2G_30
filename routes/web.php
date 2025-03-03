@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use function GuzzleHttp\json_encode;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'Selamat Datang';
+});
+
+Route::get('/hello', function(){
+    return 'Hello World';
+});
+
+Route::get('/world', function(){
+    return 'World';
+});
+
+Route::get('/about', function () {
+    return response()->json([
+        'NIM' => '2341720006',
+        'Nama' => 'Wahyu Rizky Cahyana'
+    ]);
 });
