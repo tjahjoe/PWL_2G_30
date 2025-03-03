@@ -33,7 +33,15 @@ Route::get('/about', function () {
     ]);
 });
 
-Route::get('/user/{name}', function($name){
+// Route::get('/user/{name}', function($name){
+//     return 'Nama saya ' . $name;
+// });
+
+// Route::get('/user/{name?}', function($name=null){
+//     return 'Nama saya ' . $name;
+// });
+
+Route::get('/user/{name?}', function($name='Jhon'){
     return 'Nama saya ' . $name;
 });
 
