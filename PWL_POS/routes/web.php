@@ -11,7 +11,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\pos\HomeController;
 use App\Http\Controllers\pos\ProductController;
 use App\Http\Controllers\pos\TransactionController;
-use App\Http\Controllers\pos\UserController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,3 +79,4 @@ Route::get('/', function(){
 
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
