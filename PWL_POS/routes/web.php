@@ -6,6 +6,7 @@
 // use App\Http\Controllers\PageController;
 // use App\Http\Controllers\PhotoController;
 // use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\pos\HomeController;
 use App\Http\Controllers\pos\ProductController;
@@ -77,3 +78,4 @@ Route::get('/', function(){
 });
 
 Route::get('/level', [LevelController::class, 'index']);
+Route::get('/kategori', [KategoriController::class, 'index']);
