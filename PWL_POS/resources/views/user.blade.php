@@ -9,16 +9,10 @@
     <h1>Data User</h1>
     <table border="1" cellpading="2" cellspacing="0">
         <tr>
-            <tr>ID</tr>
-            <td>Username</td>
-            <td>Nama</td>
-            <td>ID Level Pengguna</td>
+            <td>Jumlah Pengguna</td>
         </tr>
         <tr>
-            <td>{{ $data->user_id }}</td>
-            <td>{{ $data->username }}</td>
-            <td>{{ $data->nama }}</td>
-            <td>{{ $data->level_id }}</td>
+            <td>{{ $data }}</td>
         </tr>
     </table>
 </body>
