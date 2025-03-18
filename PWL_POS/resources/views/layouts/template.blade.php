@@ -7,7 +7,7 @@
     <title>{{ config('app.name', 'PWL Laravel Starter Code') }}</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">

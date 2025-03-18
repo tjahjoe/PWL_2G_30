@@ -2,40 +2,20 @@
 
 namespace Database\Seeders;
 
-use DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class StokSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $data = [
-            [
-                'stok_id' => 1,
-                'barang_id' => 1,
-                'user_id' => 1,
-                'stok_tanggal' => '2025-03-09 17:32:54',
-                'stok_jumlah' => 50
-            ],
-            [
-                'stok_id' => 2,
-                'barang_id' => 2,
-                'user_id' => 1,
-                'stok_tanggal' => '2025-03-09 17:32:54',
-                'stok_jumlah' => 40
-            ],
-            [
-                'stok_id' => 3,
-                'barang_id' => 6,
-                'user_id' => 2,
-                'stok_tanggal' => '2025-03-09 17:32:54',
-                'stok_jumlah' => 80
-            ]
-        ];
-        DB::table('t_stok')->insert($data);
+        DB::table('t_stok')->insert([
+            ['barang_id' => 1, 'user_id' => 1, 'stok_tanggal' => Carbon::now(), 'stok_jumlah' => 50, 'supplier_id' => 1],
+            ['barang_id' => 2, 'user_id' => 1, 'stok_tanggal' => Carbon::now(), 'stok_jumlah' => 30, 'supplier_id' => 1],
+            ['barang_id' => 3, 'user_id' => 1, 'stok_tanggal' => Carbon::now(), 'stok_jumlah' => 40, 'supplier_id' => 2],
+            ['barang_id' => 4, 'user_id' => 1, 'stok_tanggal' => Carbon::now(), 'stok_jumlah' => 20, 'supplier_id' => 2],
+            ['barang_id' => 5, 'user_id' => 1, 'stok_tanggal' => Carbon::now(), 'stok_jumlah' => 10, 'supplier_id' => 3]
+        ]);
     }
 }
