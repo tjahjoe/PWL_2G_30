@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
 use App\Models\UserModel;
+// use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -31,7 +33,7 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
-        ->with('level');
+            ->with('level');
 
         if ($request->level_id) {
             $users->where('level_id', $request->level_id);
@@ -78,6 +80,13 @@ confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
 
     }
 
+    public function create_ajax()
+    {
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.create_ajax')->with('level', $level);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -97,6 +106,34 @@ confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
     }
 
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'username' => 'required|string|min:3|unique:m_user,username',
+                'nama' => 'required|string|max:100',
+                'password' => 'required|min:5',
+                'level_id' => 'required|integer'
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            UserModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data user berhasil disimpan'
+            ]);
+        }
+        redirect('/');
+    }
     public function show(string $id)
     {
         $user = UserModel::with('level')->find($id);
@@ -136,7 +173,7 @@ confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
     public function update(Request $request, string $id)
     {
         $request->validate([
-           'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
+            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
             'nama' => 'required|string|max:100',
             'password' => 'nullable|min:5',
             'level_id' => 'required|integer'
@@ -151,20 +188,20 @@ confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
 
         return redirect('/user')->with('success', 'Data user berhasil diubah');
     }
-public function destroy(string $id)
-{
-    $check = UserModel::find($id);
-    if (!$check) { 
-        return redirect('/user')->with('error', 'Data user tidak ditemukan');
-    }
+    public function destroy(string $id)
+    {
+        $check = UserModel::find($id);
+        if (!$check) {
+            return redirect('/user')->with('error', 'Data user tidak ditemukan');
+        }
 
-    try {
-        UserModel::destroy($id); 
-        return redirect('/user')->with('success', 'Data user berhasil dihapus');
-    } catch (\Illuminate\Database\QueryException $e) {
-        return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        try {
+            UserModel::destroy($id);
+            return redirect('/user')->with('success', 'Data user berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        }
     }
-}
 
     public function tambah()
     {
