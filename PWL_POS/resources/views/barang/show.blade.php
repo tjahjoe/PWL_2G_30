@@ -15,11 +15,11 @@
                 <table class="table table-bordered table-striped table-hover table-sm">
                     <tr>
                         <th>ID</th>
-                        <td>{{ $barang->kategori->kategori_nama }}</td>
+                        <td>{{ $barang->barang_id }}</td>
                     </tr>
                     <tr>
                         <th>Kategori</th>
-                        <td>{{ $barang->barang_id }}</td>
+                        <td>{{ $barang->kategori->kategori_nama}}</td>
                     </tr>
                     <tr>
                         <th>barang Kode</th>
