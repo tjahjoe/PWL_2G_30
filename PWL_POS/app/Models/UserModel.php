@@ -14,7 +14,8 @@ class UserModel extends Model
     protected $primaryKey = 'user_id';
     
 
-    protected $fillable = ['level_id', 'username',  'password', 'nama'];
+    protected $fillable = ['level_id', 'username',  'password', 'nama', 'created_at', 'updated_at'];
+    protected $hidden = ['password'];
 
     public function level(): BelongsTo
     {
