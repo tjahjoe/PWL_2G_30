@@ -30,6 +30,44 @@ class UserController extends Controller
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
+    public function register(){
+        return view('register.registrasi');
+    }
+
+    public function postregister(Request $request){
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'username' => 'required|string|min:3|unique:m_user,username',
+                'nama' => 'required|string|max:100',
+                'password' => 'required|min:5'
+            ];
+    
+            $validator = Validator::make($request->all(), $rules);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+    
+            $data = $request->all();
+            $data['level_id'] = 3;
+            $data['password'] = Hash::make($request->password);
+    
+            UserModel::create($data);
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Data user berhasil disimpan',
+                'redirect' => url('/login')
+            ]);
+        }
+    
+        return redirect('/');
+    }
+
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')

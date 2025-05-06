@@ -96,6 +96,9 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postlogin']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::get('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'postregister']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
     Route::group(['prefix' => 'user'], function () {
