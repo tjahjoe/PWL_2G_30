@@ -41,7 +41,7 @@ class UserController extends Controller
                 'nama' => 'required|string|max:100',
                 'password' => 'required|min:5'
             ];
-    
+            
             $validator = Validator::make($request->all(), $rules);
     
             if ($validator->fails()) {
