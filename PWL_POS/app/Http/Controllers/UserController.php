@@ -30,20 +30,22 @@ class UserController extends Controller
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
-    public function register(){
+    public function register()
+    {
         return view('register.registrasi');
     }
 
-    public function postregister(Request $request){
+    public function postregister(Request $request)
+    {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'username' => 'required|string|min:3|unique:m_user,username',
                 'nama' => 'required|string|max:100',
                 'password' => 'required|min:5'
             ];
-            
+
             $validator = Validator::make($request->all(), $rules);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
@@ -51,20 +53,20 @@ class UserController extends Controller
                     'msgField' => $validator->errors()
                 ]);
             }
-    
+
             $data = $request->all();
             $data['level_id'] = 3;
             $data['password'] = Hash::make($request->password);
-    
+
             UserModel::create($data);
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'Data user berhasil disimpan',
                 'redirect' => url('/login')
             ]);
         }
-    
+
         return redirect('/');
     }
 
@@ -285,13 +287,15 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function confirm_ajax(string $id){
+    public function confirm_ajax(string $id)
+    {
         $user = UserModel::find($id);
 
         return view('user.confirm_ajax', ['user' => $user]);
     }
 
-    public function delete_ajax(Request $request, $id){
+    public function delete_ajax(Request $request, $id)
+    {
         if ($request->ajax() || $request->wantsJson()) {
             $user = UserModel::find($id);
             if ($user) {
@@ -365,5 +369,45 @@ class UserController extends Controller
         $user->delete();
 
         return redirect(url('http://localhost/PWL_2G_30/PWL_POS/public/user'));
+    }
+
+    public function poto()
+    {
+        return view('user.poto');
+    }
+
+    public function change_poto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'poto' => 'required|image|mimes:jpg,jpeg,png|max:2048', 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi gagal',
+                'msgField' => $validator->errors(),
+            ]);
+        }
+
+        if ($request->hasFile('poto')) {
+            $file = $request->file('poto');
+
+            $filename = 'poto.png';
+
+            $path = $file->storeAs('public/poto/profil', $filename);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Foto berhasil diunggah.',
+                'redirect' => url('/'),
+                'path' => $path
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'File tidak ditemukan atau gagal diunggah.',
+        ]);
     }
 }

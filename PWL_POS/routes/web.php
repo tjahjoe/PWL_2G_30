@@ -101,6 +101,8 @@ Route::post('/register', [UserController::class, 'postregister']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
+    Route::get('/poto', [UserController::class, 'poto']);
+    Route::post('/poto', [UserController::class, 'change_poto']);
 
     Route::middleware(['authorize:ADMM'])->group(function () {
         Route::group(['prefix' => 'level'], function () {
