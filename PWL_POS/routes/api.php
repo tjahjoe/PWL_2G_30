@@ -51,3 +51,5 @@ Route::post('/logout', LogoutController::class)->name('logout');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/register1', RegisterController::class)->name('register1');

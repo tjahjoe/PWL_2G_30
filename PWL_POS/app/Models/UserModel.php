@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,25 +12,34 @@ class UserModel extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
-    public function getJWTIdentifier(){
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims(){
+    public function getJWTCustomClaims()
+    {
         return [];
     }
-    
+
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
-    
 
-    protected $fillable = ['level_id', 'username',  'password', 'nama', 'created_at', 'updated_at'];
+
+    protected $fillable = ['level_id', 'username', 'password', 'nama', 'created_at', 'updated_at', 'image'];
     protected $hidden = ['password'];
     protected $casts = ['password' => 'hashed'];
 
     public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('/storage/posts/' . $image),
+        );
     }
 
     public function getRoleName(): string
